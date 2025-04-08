@@ -1,0 +1,87 @@
+<div class="vh-100 main-css page-background-color">
+    
+    <div class="h2-css heading-css">
+        {{ pageName === "create" ? 'Create a new movie' : 'Edit' }}
+    </div>
+    
+    <form method="post" encType='multipart/form-data' [formGroup]="movieForm" (ngSubmit)="submitForm()">
+        <div class='form-main-css'>
+
+                @if(!movieForm.get("image_file")?.value && !img_blob){                    
+                    <div class="upload-div upload-css" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
+                        <label htmlFor='file'>Drop an image here</label>                
+                        <input
+                            id="file"
+                            type="file"
+                            class="d-none"
+                            formControlName="image_file"
+                            (change)="changeImage($event)"
+                        />
+                    </div>
+                } @else {
+                    <div class="d-flex flex-column align-items-center gap-2 upload-div">
+    
+                            @if(img_blob){
+                                <img 
+                                    class="image-css"
+                                    src={{img_blob}}
+                                    type="image/jpeg"
+                                />
+                            }                            
+    
+                        <button type="button" class="reset-cancel-btn" (click)="reset()">Reset</button>
+                    </div>
+                }               
+                
+
+            <div class="form-css">
+                
+                <div class="wrapper">
+
+                    <div class="mb-3">
+                        
+                        <input 
+                            value=""
+                            class="form-control input-css input-css-title input-css-error"
+                            placeholder="Title"
+                            formControlName="title"  />
+
+                        <p class="mt-2 body-extra-small error-text">
+                            @if(title?.invalid && title?.touched){
+                                @if(title?.hasError("required")){
+                                    Title is required
+                                }
+                            }
+                        </p>
+                    </div>
+        
+                    <div class="mb-3">
+                        <input
+                            value=""
+                            class="form-control input-css input-css-publishedyear input-css-error"
+                            placeholder='Published Year'
+                            formControlName="published_year"/>
+
+                        <p class="mt-2 body-extra-small error-text">
+                            @if(published_year?.invalid && published_year?.touched){
+                                @if(published_year?.hasError("required")){
+                                    Year is required
+                                }@else if(published_year?.hasError("pattern")){
+                                    Make sure to enter valid published_year
+                                }
+                            }
+                        </p>
+                    </div>
+
+                </div>
+                
+                <div class="mb-3 btn-containe">
+                    <a type="reset" class="btn body-regular reset-cancel-btn" routerLink="/movies">Cancel</a>
+                    <button type="submit" class="btn body-regular submit-btn" [class.disabled]="movieForm.invalid">
+                        {{ pageName == 'create' ? ( submitDisabled ? 'Submitting...' : 'Submit') : ( submitDisabled ? 'Updating...' : 'Update') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

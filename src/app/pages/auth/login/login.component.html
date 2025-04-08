@@ -1,0 +1,62 @@
+<div class="vh-100 flex justify-center items-center page-background-color">
+    <div class="login_box p-3">
+        <h1 class="display-6 mb-3 text-center text-white h1-css">Sign in</h1>
+
+        <div class="text-center text-danger body-regular mb-2" [class.d-none]="isSuccess">
+            {{ signinError }}
+        </div>
+
+        <form method="post" (ngSubmit)="formSubmit()" #loginForm="ngForm">
+            <div class="mb-3">
+                <input 
+                    class="form-control input-css input-css-error" 
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    #email="ngModel"
+                    [(ngModel)]="userData.email"
+                    required
+                    pattern="^[a-z._+]+@[a-z0-9.]+.[a-z]{2,4}$"
+                    />
+                @if(email.touched && email.hasError('pattern')){
+                    <p class="mt-2 body-extra-small error-text">Please enter valid email</p>
+                }
+            </div>
+
+            <div class="mb-3">  
+                <span class="password-div">                      
+                    <span class='eye-css'><i class="bi" [class]="{'bi-eye-slash-fill': !isPassword, 'bi-eye-fill': isPassword}" (click)="changeInputTye()"></i></span>
+                    <input
+                        class="form-control input-css input-css-error"
+                        type="{{isPassword ? 'password' : 'text'}}"
+                        placeholder="Password" 
+                        name="password"
+                        #password="ngModel"
+                        [(ngModel)]="userData.password"
+                        required
+                        minlength="6"
+                        />
+                </span>
+                @if(password.invalid && password.touched){
+                    <p class="mt-2 body-extra-small error-text">Please enter password</p>
+                }@else if(password.hasError("minLength")){
+                    <p class="mt-2 body-extra-small error-text">Password must contain 6 letters</p>
+                }
+            </div>
+
+            <div class="mb-3 wrapper body-small">
+                <label class="d-flex justify-content-center align-items-center gap-1 container">
+                    <input 
+                        type="checkbox" 
+                        name="rememberMe"
+                        [(ngModel)]="userData.rememberMe"/>
+                        <span class="checkmark"></span> Remember me
+                </label>
+            </div>
+
+            <div class="mb-3 wrapper">
+                <button type="submit" class="btn login-btn body-regular" [disabled]="loginForm.invalid">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

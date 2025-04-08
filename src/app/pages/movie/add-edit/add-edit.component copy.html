@@ -1,0 +1,67 @@
+<form method="post" encType='multipart/form-data'>
+    <div class="vh-100 main-css page-background-color">
+        <div class="h2-css heading-css">
+            pageName === "create" ? 'Create a new movie' : 'Edit'
+        </div>
+
+        <div class="form-div-css">
+
+            <div class="upload-div upload-css">
+                <label htmlFor='file'>Drop an image here</label>                
+                <input
+                    id="file"
+                    type="file"
+                    class="d-none"
+                />
+            </div>
+
+            @if(false){
+                <div class="d-flex flex-column align-items-center gap-2 upload-div">
+    
+                            <!-- <object 
+                                class="image-css"
+                                data={fileBlob}
+                                type="image/jpeg"
+                            ></object> -->
+    
+                            <img 
+                                src={formData.img_url} 
+                                class="image-css" 
+                                /> 
+    
+                    <button class="reset-cancel-btn">Reset</button>
+                </div>
+            }
+
+            <div class="form-css">                
+                <div class="wrapper">
+                    <div class="mb-3">
+                        <input 
+                            value={formData.title}
+                            class="form-control input-css input-css-title input-css-error" 
+                            placeholder="Title" />
+
+                        <p class="mt-2 body-extra-small error-text">errors.title?.message</p>
+                    </div>
+        
+                    <div class="mb-3">
+                        <input
+                            value={formData.published_year}
+                            class="form-control input-css input-css-publishedyear input-css-error"
+                            placeholder='Published Year' />
+
+                        <p class="mt-2 body-extra-small error-text">errors.published_year?.message</p>
+                    </div>
+
+                </div>
+                
+                <div class="mb-3 btn-container">
+                    <a href="#" type="reset" class="btn body-regular reset-cancel-btn">Cancel</a>
+                    <button type="submit" class="btn body-regular submit-btn pe-none">
+                        pageName === 'create' ? ( submitDisabled ? 'Submitting...' : 'Submit') : ( submitDisabled ? 'Updating...' : 'Update')
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

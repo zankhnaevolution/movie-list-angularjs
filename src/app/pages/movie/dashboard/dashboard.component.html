@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-center flex-column gap-5 page-background-color movie-list-div-css">
+    <div class="w-100 d-flex flex-row align-items-center justify-content-between">
+        <div class="d-flex flex-row align-items-center gap-2">
+            <div class="heading-css">My movies</div> 
+            <a routerLink="/create"><i class="bi bi-plus-circle" [style.fontSize]="'1.6rem'"></i></a>
+        </div>
+        <div class="d-flex align-items-center gap-2 logout-css" (click)="logoutUser()">
+            <div class="body-regular logout-text">Logout</div>
+            <i class="bi bi-box-arrow-right" [style.fontSize]="'1.3rem'"></i>
+        </div>
+    </div>
+
+    <div class="movies-div">     
+        @for(movie of movieList; track movie){
+            <a href="/edit/{{movie._id}}" class="col text-decoration-none movie-div">
+                <div class="card movie-div-card">
+                    <img 
+                        class="card-img-top movie-img"
+                        alt="..."
+                        [src]="movie.movie_img.startsWith('http') ? movie.movie_img: publicURL + '/uploads/' + movie.movie_img "/>
+                    <div class="card-body movie-div-card">
+                        <h5 class="card-title movie-title-css" [style.color]="'white'">{{movie.movie_title}}</h5>
+                        <p class="card-text body-small">{{movie.movie_published_year}}</p>
+                    </div>
+                </div>
+            </a>
+        }           
+    </div>
+
+    <nav>
+        <ul class="pagination justify-content-center pb-4 body-regular">
+            <span 
+                class="movie-nav-element"
+                [class.pagination-disabled] = "currentPage == 1"
+                (click)="changePage('prev')"
+            >Prev</span>
+                @for(page of totalPages; track page; let index = $index){
+                    <div class="movie-nav-element movie-nav-square" [class.movie-nav-square-active]="currentPage == index+1" (click)="changePage(index+1)">{{ index + 1 }}</div>
+                }
+            <span 
+                class="movie-nav-element"
+                [class.pagination-disabled] = "currentPage == totalPages.length"
+                (click)="changePage('next')"
+            >Next</span>
+        </ul>
+    </nav>
+</div>
